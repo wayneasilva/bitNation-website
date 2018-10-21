@@ -9,12 +9,20 @@ app.set("view engine, ejs");
 app.use(express.static("public"));
 
 //MODEL CONFIGURATION
-
+const articleSchema = new mongoose.Schema({
+    title: String,
+    image: String,
+    body: String,
+    createdBy: {type: String, default: 'sunflowerSamurai'},
+    createdOn: {type: Date, default: Date.now}
+})
 //RESTUL ROUTES
 
 //ROOT DIRECTORY
 app.get("/", function(req, res) {
-    res.send("Groot");
+    res.redirect("index");
 })
 
-app.get("/")
+app.get("/articles", function() {
+    res.render("index");
+})
