@@ -1,2 +1,14 @@
-<h1>bitNation</h1>
+<% include ./partials/header %>
 
+<h1>bitNation</h1>
+<div class="content box">
+    <% articles.forEach(function(article) { %>
+        <h2><%= article.title %> </h2>
+        <div class="image is-64x64">
+            <img src="<%= article.image %>">
+        </div>
+        <p><%= article.body %></p>
+    <% }) %>
+</div>
+
+<% include ./partials/footer %>

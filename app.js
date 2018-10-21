@@ -26,13 +26,26 @@ Article.create({
 })
 //RESTUL ROUTES
 
-//ROOT DIRECTORY
+//ROOT ROUTE
 app.get("/", function(req, res) {
     res.redirect("articles");
 })
 
+//INDEX ROUTE
 app.get("/articles", function(req, res) {
-    res.render("index");
+    Article.find({}, function(err, articles) {
+        if (err) {
+            console.log("Beep Boop!? Something went wrong!")
+        }
+        else {
+            res.render("index", {articles: articles});
+        }
+    })
+})
+
+//CREATE ROUTE
+app.post("/articles", function(req, res) {
+    Article.create()
 })
 
 //LISTEN ON PORT 3000
