@@ -1,12 +1,12 @@
 <% include ./partials/header %>
 
 <h1>bitNation</h1>
-<div class="content box">
+<div class="container">
     <% articles.forEach(function(article) { %>
         <h2><%= article.title %> </h2>
-        <div class="image is-64x64">
+        <figure class="image is-64x64">
             <img src="<%= article.image %>">
-        </div>
+        </figure>
         <p><%= article.body %></p>
     <% }) %>
 </div>
