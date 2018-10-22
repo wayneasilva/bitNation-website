@@ -2,11 +2,13 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const request = require("request");
+const bodyParser = require("body-parser");
 
 //APP CONFIGURATION
 mongoose.connect("mongodb://localhost:27017/crypto_DB", { useNewUrlParser: true, useFindAndModify: false });
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({extended: true}));
 
 //MODEL CONFIGURATION
 const articleSchema = new mongoose.Schema({
@@ -30,7 +32,10 @@ const Article = mongoose.model("article", articleSchema);
 app.get("/", function(req, res) {
     const btcUrl = 'https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=BTC,USD,EUR';
     
-    //Request price data from server
+    //Redirect to our index page
+    res.render("test");
+
+    //request price data asychronously, need to change to fetch or fix scoping issue
     let requestPrice = function() {
         request(btcUrl, function(error, response, body) {
             if (error) {
@@ -38,12 +43,12 @@ app.get("/", function(req, res) {
             }
             else if (response.statusCode == 200) {
                 console.log(body);
+                
             }
         })
     }
     setInterval(requestPrice, 1000);
-
-    res.render("test"); //change this later
+    // setInterval(requestPrice, 1000);
 })
 
 //INDEX ROUTE
