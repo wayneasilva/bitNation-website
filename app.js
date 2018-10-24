@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const request = require("request");
 const bodyParser = require("body-parser");
+const fetch = require("node-fetch");
 
 //APP CONFIGURATION
 mongoose.connect("mongodb://localhost:27017/crypto_DB", { useNewUrlParser: true, useFindAndModify: false });
@@ -31,24 +32,46 @@ const Article = mongoose.model("article", articleSchema);
 //ROOT ROUTE
 app.get("/", function(req, res) {
     const btcUrl = 'https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=BTC,USD,EUR';
-    
+    const bchUrl = 'https://min-api.cryptocompare.com/data/price?fsym=BCH&tsyms=BTC,USD,EUR';
+    const ethUrl = 'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR';
+    const ltcUrl = 'https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=BTC,USD,EUR';
+    const CRYPTO_PRICES = {
+        "btc": String,
+        "bch": String,
+        "eth": String,
+        "ltc": String
+    }
     //Redirect to our index page
     res.render("test");
 
-    //request price data asychronously, need to change to fetch or fix scoping issue
-    let requestPrice = function() {
-        request(btcUrl, function(error, response, body) {
-            if (error) {
-                console.log("no");
-            }
-            else if (response.statusCode == 200) {
-                console.log(body);
-                
-            }
-        })
+    //Request prices via http request. **Refactor code later.
+    const priceCheck = function() {
+        fetch(btcUrl)
+        .then(response => response.json())
+        .then(body => CRYPTO_PRICES['btc'] = body['USD'])
+        .then(() => console.log(CRYPTO_PRICES['btc']))
+        .catch(err => console.log(err));
+
+        fetch(bchUrl)
+        .then(response => response.json())
+        .then(body => CRYPTO_PRICES['bch'] = body['USD'])
+        .then(() => console.log(CRYPTO_PRICES['bch']))
+        .catch(err => console.log(err));
+        
+        fetch(ethUrl)
+        .then(response => response.json())
+        .then(body => CRYPTO_PRICES['eth'] = body['USD'])
+        .then(() => console.log(CRYPTO_PRICES['eth']))
+        .catch(err => console.log(err));
+        
+        fetch(ltcUrl)
+        .then(response => response.json())
+        .then(body => CRYPTO_PRICES['ltc'] = body['USD'])
+        .then(() => console.log(CRYPTO_PRICES['ltc']))
+        .catch(err => console.log(err));
     }
-    setInterval(requestPrice, 1000);
-    // setInterval(requestPrice, 1000);
+
+    setInterval(priceCheck, 1000);
 })
 
 //INDEX ROUTE
