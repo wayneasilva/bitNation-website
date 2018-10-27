@@ -4,12 +4,14 @@ const mongoose = require("mongoose");
 const request = require("request");
 const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
+const methodOverride = require("method-override");
 
 //APP CONFIGURATION
 mongoose.connect("mongodb://localhost:27017/crypto_DB", { useNewUrlParser: true, useFindAndModify: false });
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 
 //MODEL CONFIGURATION
 const articleSchema = new mongoose.Schema({
@@ -72,6 +74,58 @@ app.post("/articles", function(req, res) {
         else {
             res.redirect("/articles");
         }
+    })
+})
+
+//SHOW ROUTE
+app.get("/articles/:id", function(req, res) {
+    Article.findById(req.params.id, function(err, foundArticle) {
+        if (err) {
+            res.redirect("/articles");
+        }
+        else {
+            res.render("show", {article: foundArticle});
+        }
+    })
+})
+
+//EDIT ROUTE
+app.get("/articles/:id/edit", function(req, res) {
+    Article.findById(req.params.id, function(err, foundArticle) {
+        if (err) {
+            res.redirect("articles");
+        }
+        else {
+            res.render("edit", {article: foundArticle})
+        }
+    })
+})
+
+//UPDATE ROUTE
+app.put("/articles/:id", function(req, res) {
+    Article.findByIdAndUpdate(req.params.id, req.body.article, function(err, updatedArticle) {
+        if (err) {
+            res.redirect("/articles");
+        }
+        else {
+            res.redirect("/articles/" + req.params.id);
+        }
+    })
+})
+
+//DELETE ROUTE
+//DESTROY ROUTE
+app.delete("/articles/:id", function(req, res) {
+    Article.findByIdAndRemove(req.params.id, function(err) {
+        if (err) {
+            console.log("FAILED TO DELETE");
+            res.redirect("/articles");
+        }
+        else {
+            //Let's prompt the user to confirm the delete later.
+            res.redirect("/articles");
+        }
+
     })
 })
 

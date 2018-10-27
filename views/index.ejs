@@ -6,12 +6,13 @@
     <% articles.forEach(function(article) { %>
         <div class="box">
             <div class="container">
-                <div class="title"><%= article.title %></div>
+                <a class="title" href="/articles/<%= article._id %>"><%= article.title %></a>
                 <figure class="image is-64x64">
                     <img src="<%= article.image %>">
                 </figure>
+                <span><%= article.created %></span>
                 <div class="container">
-                    <%= article.body %>
+                    <p><%= article.body.substring(0, 100) %></p>
                 </div>
             </div>
         </div>
