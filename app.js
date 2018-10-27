@@ -49,7 +49,7 @@ app.get("/articles", function(req, res) {
             //     fetch(url).then(response => response.json())
             // ))
 
-            const pricesPromise = Promise.all(urls.map(url =>
+            Promise.all(urls.map(url =>
                 fetch(url).then(response => response.json())
             )).then(prices => {return res.render("index", {articles: articles, prices: prices})})
             
@@ -59,21 +59,21 @@ app.get("/articles", function(req, res) {
 })
 
 //NEW ROUTE
-// app.get("/articles/new", function(req, res) {
-//     res.render("new");
-// })
+app.get("/articles/new", function(req, res) {
+    res.render("new");
+})
 
 //CREATE ROUTE
-// app.post("/articles", function(req, res) {
-//     Article.create(req.body.article, function(err, newArticle) {
-//         if (err) {
-//             res.render("new");
-//         }
-//         else {
-//             res.redirect("/articles");
-//         }
-//     })
-// })
+app.post("/articles", function(req, res) {
+    Article.create(req.body.article, function(err, newArticle) {
+        if (err) {
+            res.render("new");
+        }
+        else {
+            res.redirect("/articles");
+        }
+    })
+})
 
 //LISTEN ON PORT 3000
 app.listen(3000, function() {
