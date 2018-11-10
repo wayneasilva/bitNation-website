@@ -8,7 +8,7 @@ const methodOverride = require("method-override");
 
 //APP CONFIGURATION
 // mongoose.connect("mongodb://localhost:27017/crypto_DB", { useNewUrlParser: true, useFindAndModify: false });
-mongoose.connect("mongodb://wayneasilva:Tobirama707@ds153730.mlab.com:53730/bitnation", { useNewUrlParser: true, useFindAndModify: false });
+mongoose.connect("mongodb://user:pass@ds153730.mlab.com:53730/bitnation", { useNewUrlParser: true, useFindAndModify: false });
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
