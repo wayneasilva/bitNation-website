@@ -1,22 +1,50 @@
 <%- include ./partials/header %>
 
 <% console.log(prices) %>
-
-<div class="container">
-    <% articles.forEach(function(article) { %>
-        <div class="box">
-            <div class="container">
-                <a class="title" href="/articles/<%= article._id %>"><%= article.title %></a>
-                <figure class="image">
-                    <img src="<%= article.image %>">
-                </figure>
-                <span><%= article.created %></span>
-                <div class="container">
-                    <p><%= article.body.substring(0, 100) %></p>
-                </div>
+    <div class="price-container">
+        <div class="price-box">
+            <!-- <i class="fab fa-bitcoin"></i> -->
+            <div>
+                <p>Bitcoin <strong>BTC</strong></p>
+                <p id="btc-price-display"><%= prices[0]['USD'] %></p>
             </div>
         </div>
-    <% }) %>
-</div>
+        <div class="price-box">
+            <div>
+                <p>Bit. Cash <strong>BCH</strong></p>
+                <p id="bch-price-display"><%= prices[1]['USD'] %></p>
+            </div>
+        </div>
+        <div class="price-box">
+                <!-- <i class="fab fa-ethereum"></i> -->
+            <div>
+                <p>Ethereum <strong>ETH</strong></p>
+                <p id="eth-price-display"><%= prices[2]['USD'] %></p>
+            </div>
+        </div>
+        <div class="price-box">
+            <div>
+                <p>Litecoin <strong>LTC</strong></p>
+                <p id="-price-display"><%= prices[3]['USD'] %></p>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="main-container">
+        <% articles.forEach(function(article) { %>
+            <div class="container">
+                <div class="box">
+                    <a class="title" href="/articles/<%= article._id %>"><%= article.title %></a>
+                    <figure class="image">
+                        <img src="<%= article.image %>">
+                    </figure>
+                    <span><%= article.created %></span>
+                    <div class="container">
+                        <p><%= article.body.substring(0, 100) %></p>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+
 
 <% include ./partials/footer %>
